@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A simple, student-friendly budget tracker." />
+  <title>Sprout Budget</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>.calendar-panel{display:block!important}</style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#overview" aria-label="Sprout Budget home"><span class="brand-mark">✦</span><span>sprout<span class="brand-dot">.</span></span></a>
+      <div class="topbar-actions"><span class="save-note" aria-live="polite">Saved on this device</span><button class="icon-button" id="resetData" type="button" title="Reset sample data" aria-label="Reset sample data">↻</button></div>
+    </header>
+
+    <main>
+      <section class="welcome" id="overview">
+        <div><p class="eyebrow">YOUR MONEY, AT A GLANCE</p><h1>Make your money <em>make sense.</em></h1><p class="subtitle">A simple place to see what’s coming in, what’s going out, and what you’re working toward.</p></div>
+        <div class="month-pill"><span class="sun">☼</span><div><small>THIS MONTH</small><strong id="monthLabel"></strong></div></div>
+      </section>
+
+      <section class="summary-grid" aria-label="Budget summary">
+        <article class="summary-card balance-card"><div class="card-label"><span class="dot green"></span>CURRENT BALANCE</div><strong id="balanceTotal" class="big-number">$0.00</strong><p id="balanceHint">Add your first transaction to get started.</p><div class="balance-bar"><span id="balanceBar"></span></div></article>
+        <article class="summary-card"><div class="card-label"><span class="dot blue"></span>INCOMING</div><strong id="incomeTotal" class="big-number">$0.00</strong><p>This month</p><span class="trend up">↗ <span id="incomeCount">0 entries</span></span></article>
+        <article class="summary-card"><div class="card-label"><span class="dot coral"></span>SPENT</div><strong id="spentTotal" class="big-number">$0.00</strong><p>This month</p><span class="trend down">↘ <span id="spentCount">0 entries</span></span></article>
+        <article class="summary-card"><div class="card-label"><span class="dot purple"></span>UNPAID</div><strong id="unpaidTotal" class="big-number">$0.00</strong><p id="unpaidHint">Nothing due right now</p><button class="text-link" data-scroll="debts" type="button">View details →</button></article>
+      </section>
+
+      <nav class="tabs" aria-label="Budget sections"><button class="tab active" data-tab="dashboard" type="button">Overview</button><button class="tab" data-tab="transactions" type="button">Transactions</button><button class="tab" data-tab="planning" type="button">Plan ahead</button></nav>
+
+      <div id="dashboardView" class="view active-view">
+        <section class="content-grid two-col">
+          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">RECENT ACTIVITY</p><h2>Where your money went</h2></div><button class="soft-button" data-tab-jump="transactions" type="button">+ Add transaction</button></div><div id="recentTransactions" class="list"></div></article>
+          <article class="panel goal-panel"><div class="panel-heading"><div><p class="eyebrow">SAVING FOR</p><h2 id="goalTitle">Create a savings goal</h2></div><button class="kebab" id="editGoal" type="button" aria-label="Edit savings goal">•••</button></div><div class="goal-summary"><div class="goal-jar" id="goalJar" role="img" aria-label="Savings jar progress"><div class="jar-fill"></div><span class="jar-lid"></span><strong id="jarPercent">0%</strong></div><div class="goal-details"><div class="goal-percent-line"><strong id="goalPercent">0%</strong><span>complete</span></div><div class="xp-track" role="progressbar" aria-label="Savings experience progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="xpFill"></span></div><div class="goal-numbers"><span><strong id="goalSaved">$0.00</strong> saved</span><span><strong id="goalTarget">Set a target</strong> goal</span></div></div></div><p class="goal-remaining" id="goalRemaining">Create a goal to see what remains.</p><button class="primary-button full" id="addSaving" type="button">+ Add to savings</button><div id="badges" class="badges" aria-label="Savings badges"></div></article>
+        </section>
+        <section class="content-grid two-col lower-grid"><article class="panel"><div class="panel-heading"><div><p class="eyebrow">NEXT UP</p><h2>Upcoming costs</h2></div><button class="text-link" data-scroll="upcoming" type="button">See all →</button></div><div id="upcomingPreview" class="list"></div></article><article class="panel"><div class="panel-heading"><div><p class="eyebrow">SPENDING STORY</p><h2>Where money went</h2></div></div><p class="panel-helper">A quick, friendly view of your spending. Exact totals are shown beside each category.</p><div class="spending-overview"><div id="pieChart" class="pie-chart" role="img" aria-label="Spending by category pie chart"></div><div id="pieLegend" class="pie-legend"></div></div><div id="categoryChart" class="category-chart"></div></article></section>
+      </div>
+
+      <div id="transactionsView" class="view"><section class="panel"><div class="panel-heading"><div><p class="eyebrow">MONEY MOVEMENT</p><h2>All transactions</h2></div><button class="primary-button" id="addTransaction" type="button">+ Add transaction</button></div><div id="allTransactions" class="list"></div></section></div>
+
+      <div id="planningView" class="view"><section class="panel calendar-panel"><div class="panel-heading"><div><p class="eyebrow">SEE WHAT’S DUE</p><h2 id="calendarTitle"></h2></div><div class="calendar-actions"><button class="soft-button" id="prevMonth" type="button" aria-label="Previous month">‹</button><button class="soft-button" id="todayMonth" type="button">Today</button><button class="soft-button" id="nextMonth" type="button" aria-label="Next month">›</button></div></div><div class="calendar-legend"><span><i class="legend-dot cost-dot"></i>Upcoming cost</span><span><i class="legend-dot debt-dot"></i>Debt</span></div><div id="calendar" class="calendar" aria-label="Due date calendar"></div></section><section class="content-grid two-col"><article class="panel" id="upcoming"><div class="panel-heading"><div><p class="eyebrow">PLAN AHEAD</p><h2>Upcoming costs</h2></div><button class="primary-button" id="addUpcoming" type="button">+ Add cost</button></div><div id="allUpcoming" class="list"></div></article><article class="panel" id="debts"><div class="panel-heading"><div><p class="eyebrow">KEEP TRACK</p><h2>Money owed</h2></div><button class="primary-button" id="addDebt" type="button">+ Add debt</button></div><div id="allDebts" class="list"></div></article></section><section class="panel savings-section"><div class="panel-heading"><div><p class="eyebrow">YOUR GOAL</p><h2>Savings goal</h2></div><button class="soft-button" id="editGoal2" type="button">Edit goal</button></div><div id="goalEditor" class="goal-editor"></div></section></div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="entryDialog"><form method="dialog" id="entryForm"><div class="dialog-heading"><div><p class="eyebrow" id="dialogEyebrow">ADD ENTRY</p><h2 id="dialogTitle">Add transaction</h2></div><button class="close-button" value="cancel" aria-label="Close">×</button></div><div id="formFields"></div><div class="dialog-actions"><button class="soft-button" value="cancel" type="button" id="cancelDialog">Cancel</button><button class="primary-button" value="default" type="submit">Save entry</button></div></form></dialog>
+  <script src="script.js"></script>
+</body>
+</html>
